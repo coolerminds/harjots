@@ -4,7 +4,7 @@ export default async function seed() {
   await db.insert(Guestbook).values([
     {
       author: "Elon Musk",
-      content: "The time you spent making this website, you couldve spent making humans a space civilization...",
+      content: "Potato",
       url: "https://youtube.com",
       timestamp: new Date("2014-11-08T12:00:00Z"),
       theme: 1,
