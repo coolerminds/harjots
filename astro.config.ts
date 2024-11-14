@@ -14,7 +14,7 @@ import netlify from "@astrojs/netlify";
 
 export default defineConfig({
   site: "https://harjots.com",
-  output: "server",
+  output: "hybrid",
   prefetch: true,
   integrations: [
     react(),
