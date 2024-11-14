@@ -1,0 +1,124 @@
+---
+import Center from "../Center.astro";
+import { SubscribeForm } from "../Subscribe/SubscribeForm";
+---
+
+<footer>
+  <Center>
+    <div class="content">
+      <div class="links">
+        <a href="/about" data-fathom="footer-link">About</a>
+        <a href="/guestbook" data-fathom="footer-link">Guestbook</a>
+        <a href="/rss.xml" data-fathom="footer-link">RSS</a>
+      </div>
+      <div class="links">
+        <a
+          href="https://www.instagram.com/blahzilla"
+          target="_blank"
+          data-fathom="footer-link">Insta</a
+        >
+        <a
+          href="https://github.com/coolerminds"
+          target="_blank"
+          data-fathom="footer-link">GitHub</a
+        >
+        <a
+          href="https://linkedin.com/in/harjots"
+          target="_blank"
+          data-fathom="footer-link">LinkedIn</a
+        >
+      </div>
+      <div class="banner">
+        <span class="emoji">🇵🇸</span>
+        im Punjabi!
+      </div>
+      <div class="subscribe">
+        <SubscribeForm client:visible />
+      </div>
+    </div>
+  </Center>
+</footer>
+
+<style lang="scss">
+  footer {
+    font-size: var(--step--1);
+    padding-block: var(--space-2xl);
+    width: 100%;
+    border-top: 1px solid var(--gray-6);
+  }
+
+  .content {
+    display: grid;
+    grid-template: "links1 links2 form" 1fr "banner banner form" auto / 0.5fr 0.5fr 2fr;
+    gap: var(--space-m) var(--space-xl);
+
+    @media (width < 650px) {
+      grid-template: "form form" "links1 links2" "banner banner" / 1fr 1fr;
+      gap: var(--space-xl);
+    }
+  }
+
+  .links {
+    display: flex;
+    flex-flow: column wrap;
+    gap: var(--space-2xs);
+
+    a {
+      display: inline-block;
+    }
+
+    &:first-child {
+      grid-area: links1;
+    }
+
+    &:last-child {
+      grid-area: links2;
+    }
+  }
+
+  .copyright {
+    color: var(--gray-11);
+  }
+
+  .banner {
+    grid-area: banner;
+    color: var(--gray-11);
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    transition: background-color 0.2s ease-in-out;
+
+    a {
+      text-decoration: none;
+    }
+
+    .emoji {
+      transform: scale(1.5) translateY(0.04em);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: var(--gray-12);
+      }
+    }
+  }
+
+  .subscribe {
+    grid-area: form;
+  }
+</style>
+
+<script>
+  import * as Fathom from "fathom-client";
+
+  document.addEventListener("astro:page-load", () => {
+    document
+      .querySelectorAll("[data-fathom='footer-link']")
+      .forEach((navlink) => {
+        navlink.addEventListener("click", () => {
+          const url = navlink.getAttribute("href");
+          Fathom.trackEvent(`nav: click link (${url})`);
+        });
+      });
+  });
+</script>

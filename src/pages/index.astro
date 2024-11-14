@@ -1,0 +1,173 @@
+---
+import { getCollection } from "astro:content";
+
+import Center from "../components/Center.astro";
+import ProjectPreview from "../components/ProjectPreview.astro";
+import Synth from "../components/Synth/Synth.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const work = await getCollection("work");
+
+// Sort by year subdirectory
+work.sort((a, b) =>
+  Number.parseInt(a.id.substring(0, 4)) > Number.parseInt(b.id.substring(0, 4))
+    ? -1
+    : 1,
+);
+---
+
+<BaseLayout
+  title="Harjot Singh"
+  description="Harjot is a artist and web developer based in Bay Area, CA."
+  includeFooter
+>
+  <Center>
+    <section class="home">
+      <h1 class="visuallyhidden">Harjot designs and builds for the web</h1>
+      <div class="intro">
+        <p>Hi, I'm 
+          <strong><a href="/about" class="inline-link">Harjot Singh</a></strong>,  a software developer with a passion for writing code and capturing moments through photography. Based in California, I enjoy blending creativity and technology, whether I'm crafting seamless user experiences or taking <a role="button" data-sam-button>photos</a> of the world around me. <span class="nowrap"
+            >
+        </p>
+      </div>
+      <div class="synth">
+        <Synth />
+      </div>
+      <div class="continue">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="40px"
+          fill="currentColor"
+          ><path
+            d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"
+          ></path></svg
+        >
+      </div>
+    </section>
+    <section class="work">
+      {work.map((project) => <ProjectPreview project={project} />)}
+    </section>
+  </Center>
+</BaseLayout>
+
+<script>
+  import * as Fathom from "fathom-client";
+  import { addSam, clearSams, numSams } from "../stores/sam";
+
+  function setupSam() {
+    const samButton = document.querySelector("[data-sam-button]");
+    samButton?.addEventListener("click", () => addSam());
+
+    const shooButton = document.querySelector("[data-sam-shoo]");
+
+    if (shooButton) {
+      shooButton.addEventListener("click", () => {
+        clearSams();
+      });
+
+      numSams.subscribe((num) => {
+        num > 2
+          ? shooButton.classList.add("visible")
+          : shooButton.classList.remove("visible");
+      });
+    }
+  }
+
+  setupSam();
+
+  document.addEventListener("astro:after-swap", () => setupSam());
+
+  document.addEventListener("astro:page-load", () => {
+    document
+      .querySelector("[data-sam-button]")
+      ?.addEventListener("click", () => {
+        Fathom.trackEvent("stickers: add sam");
+      });
+
+    document.querySelector("[data-sam-shoo]")?.addEventListener("click", () => {
+      Fathom.trackEvent("stickers: shoo sam");
+    });
+  });
+</script>
+
+<style lang="scss">
+  .visuallyhidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  .home {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xl);
+    min-height: calc(100svh - var(--space-3xl) * 1.8);
+  }
+
+  .continue {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    color: var(--gray-10);
+
+    @supports (animation-timeline: view()) {
+      animation-name: fadeOut;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: contain 50% contain 80%;
+    }
+  }
+
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .work {
+    padding-block: var(--space-3xl) var(--space-xl);
+  }
+
+  .intro {
+    padding-block-start: var(--space-2xl);
+    text-wrap: balance;
+    user-select: none;
+
+    p {
+      font-size: var(--step-4);
+      letter-spacing: var(--letter-spacing-condensed);
+      line-height: var(--line-height-tight);
+    }
+  }
+
+  .synth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (width > 640px) {
+      background: var(--gray-3);
+      border-radius: var(--radius-m);
+      padding: var(--space-xl) var(--space-l);
+    }
+  }
+
+  [data-sam-button] {
+    cursor: pointer;
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+</style>

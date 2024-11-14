@@ -1,0 +1,40 @@
+# Node
+node_modules/
+package-lock.json
+
+# Workflow & Editor
+.idea
+.eslintcache
+.stylelintcache
+stats.json
+
+# macOS
+.DS_Store
+
+# Build output
+dist/
+*.tsbuildinfo
+.vercel
+.netlify
+_site/
+
+# Logs
+.lighthouseci/
+*.log
+
+# Do not commit .env files or any files that end with `.env`
+*.env
+
+# IntelliJ/WebStorm stuff
+.idea
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Astro
+.astro
+
+# Lychee
+.lycheecache

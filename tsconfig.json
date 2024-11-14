@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "module": "ES6",
+    "target": "ES6",
+    "typeRoots": ["./src/types", "./node_modules/@types", "./public/scripts"],
+    "plugins": [
+      {
+        "name": "@astrojs/ts-plugin"
+      }
+    ]
+  },
+  "extends": "astro/tsconfigs/strict",
+  "include": [
+    "astro.config.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.astro",
+    "**/*.js",
+    ".eslintrc.js",
+    "./src/types/*.d.ts",
+    "**/*.cjs"
+  ],
+  "exclude": ["node_modules", "dist"]
+}
