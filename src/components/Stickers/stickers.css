@@ -1,0 +1,73 @@
+.stickers {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  user-select: none;
+  z-index: 999;
+}
+
+.sticker {
+  position: absolute;
+  width: 200px;
+  pointer-events: none;
+}
+
+.sticker:active {
+  cursor: grabbing;
+  pointer-events: auto;
+}
+
+.stickerPath {
+  pointer-events: auto;
+  cursor: grab;
+}
+
+.stickerPath:hover,
+.sticker:active .stickerPath {
+  stroke: var(--amber-9);
+  stroke-width: 6px;
+}
+
+.stickerPicture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  user-select: none;
+}
+
+.stickerSvg {
+  pointer-events: fill;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  user-select: none;
+  filter: drop-shadow(0 1px 1px var(--black-a5));
+}
+
+.shoo-wrapper {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 999;
+  padding: var(--space-xl);
+}
+
+[data-sam-shoo] {
+  background-color: var(--gray-12);
+  border: none;
+  color: var(--gray-1);
+  border-radius: var(--radius-full);
+  padding: var(--space-2xs) var(--space-m);
+  font-weight: var(--font-weight-medium);
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: var(--shadow-m);
+}

@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import dayjs from "dayjs";
+import PostLink from "src/components/PostLink.astro";
+
+import Center from "../components/Center.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { smartquotes } from "../helpers/helpers";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const posts = await getCollection("posts");
+posts.sort((a, b) => {
+  return dayjs(b.data.datePublished).isBefore(dayjs(a.data.datePublished))
+    ? -1
+    : 1;
+});
+
+const experiments = await getCollection("experiments");
+experiments.sort((a, b) => {
+  return dayjs(b.data.datePublished).isBefore(dayjs(a.data.datePublished))
+    ? -1
+    : 1;
+});
+
+const title = "My Blog - in my weird brain";
+const description =
+  "Anything from Movies and Music reviews to talking about code.";
+---
+
+<BaseLayout title={title} description={description} includeFooter padBottom>
+  <PageHeader title={title} description={description} />
+  <Center>
+    <section>
+      <h2>.....Under construction....</h2>
+      <iframe height="315" src="https://www.youtube.com/embed/XTr5iYRS3d8?si=xfaOMoUccUGNTShV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </section>
+    <section>
+    </section>
+  </Center>
+</BaseLayout>
+
+<style lang="scss">
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+
+    & + section {
+      margin-block-start: var(--space-3xl);
+    }
+  }
+</style>
